@@ -1,0 +1,13 @@
+menu "LED Strip Configuration"
+    config LED_RMT_TX_GPIO
+        int "LED TX GPIO"
+        default 25
+        help
+            Set the GPIO number used for transmitting the RMT signal.
+
+    config LED_STRIP_LED_NUMBER
+        int "Number of LEDS in a strip"
+        default 43
+        help
+            A single RGB strip contains several LEDs.
+endmenu

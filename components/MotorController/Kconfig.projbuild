@@ -1,0 +1,43 @@
+menu "Motor Configuration"
+
+    config MOTOR_A_IN1
+        int "Motor A IN1"
+        default "21"
+    config MOTOR_A_IN2
+        int "Motor A IN2"
+        default "22"
+    
+    config MOTOR_A_INCREMENTAL_ENCODER_1
+        int "Motor A incremental encoder 1"
+        default "34"
+
+    config MOTOR_A_INCREMENTAL_ENCODER_2
+        int "Motor A incremental encoder 2"
+        default "35"
+    
+    config MOTOR_B_IN1
+        int "Motor B IN1"
+        default "19"
+    config MOTOR_B_IN2
+        int "Motor B IN2"
+        default "18"
+
+    config ENABLE_PIN
+        int "Enable Pin"
+        default "23"
+    
+    config MOTOR_B_INCREMENTAL_ENCODER_1
+        int "Motor B incremental encoder 1"
+        default "36"
+    config MOTOR_B_INCREMENTAL_ENCODER_2
+        int "Motor B incremental encoder 2"
+        default "39"
+            
+    
+    config MOTOR_PWM_FREQUENCY
+        int "PWM_FEQUENCY"
+        default "20000"
+        help
+            Define the Pwm frequency.
+
+endmenu

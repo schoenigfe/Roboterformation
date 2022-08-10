@@ -1,0 +1,18 @@
+menu "Marvelmind"
+
+    config UART_TX_PIN
+        int "Uart Tx Pin"
+        default "27"
+
+    config UART_RX_PIN
+        int "Uart Rx Pin"
+        default "26"
+
+    config UART_BAUDRATE
+        int "Uart Baudrate"
+        default 115200
+
+    config UART_RX_BUFFER
+        int "Uart Rx Buffer"
+        default 512
+endmenu
