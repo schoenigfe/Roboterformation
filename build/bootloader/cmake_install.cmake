@@ -39,7 +39,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/jansimon/Schreibtisch/Projektarbeit/Projektarbeit/Roboterformation_ESP-IDF_Backup/build/bootloader/esp-idf/cmake_install.cmake")
+  include("/home/jansimon/Schreibtisch/Projektarbeit/Git_Code/Roboterformation_esp/build/bootloader/esp-idf/cmake_install.cmake")
 
 endif()
 
@@ -51,5 +51,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/jansimon/Schreibtisch/Projektarbeit/Projektarbeit/Roboterformation_ESP-IDF_Backup/build/bootloader/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/jansimon/Schreibtisch/Projektarbeit/Git_Code/Roboterformation_esp/build/bootloader/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

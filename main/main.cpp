@@ -92,7 +92,7 @@ extern "C" void app_main(void)
   ControllerMaster& controller_master = ControllerMaster::init(output_velocity, pose_sensor);
 
   ros::Publisher<ros_msgs::Pose2D>& pose_feedback = node_handle.advertise<ros_msgs::Pose2D>("pose2D");
-  ros::Publisher<ros_msgs::IMU>& imu_feedback = node_handle.advertise<ros_msgs::IMU>("IMU");
+  ros::Publisher<ros_msgs::Imu>& imu_feedback = node_handle.advertise<ros_msgs::Imu>("imu");
 
   StateMachine& state_machine = StateMachine::init(controller_master, output_velocity);
   node_handle.subscribe<ros_msgs::Point2D>("goal_point", std::bind(&StateMachine::set_goal_point, &state_machine, std::placeholders::_1));
@@ -107,18 +107,19 @@ extern "C" void app_main(void)
   while(1) 
   { 
     ros_msgs_lw::Pose2D pose;
-    ros_msgs::IMU imu;
+    ros_msgs_lw::Imu imu;
     if(pose_sensor.peekAtPose(pose))
     {
-      //ESP_LOGI(TAG, "X: %f, Y: %f, Theta: %f", pose.x, pose.y,  pose.theta);
+      ESP_LOGI(TAG, "X: %f, Y: %f, Theta: %f", pose.x, pose.y,  pose.theta);
 
       ros_msgs::Pose2D pose_msg(pose);
       pose_feedback.publish(pose_msg);
     }
     
     if(imu_sensor.getIMU(imu))
-    {
-       imu_feedback.publish(imu);
+    {   
+       ros_msgs::Imu imu_msg(imu);
+       imu_feedback.publish(imu_msg);
     }
 
     vTaskDelay(100 / portTICK_PERIOD_MS);
