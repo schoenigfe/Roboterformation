@@ -82,6 +82,7 @@ extern "C" void app_main(void)
   #endif
   
   Marvelmind& imu_sensor = Marvelmind::init();
+  Marvelmind& qual_sensor = Marvelmind::init();
 
   #ifdef DATA_LOGGING
     ros::Publisher<ros_msgs::String>& data_log_publisher = node_handle.advertise<ros_msgs::String>("data_log");
@@ -92,6 +93,7 @@ extern "C" void app_main(void)
   ControllerMaster& controller_master = ControllerMaster::init(output_velocity, pose_sensor);
 
   ros::Publisher<ros_msgs::Pose2D>& pose_feedback = node_handle.advertise<ros_msgs::Pose2D>("pose2D");
+  //ros::Publisher<ros_msgs::Qual>& qual_feedback = node_handle.advertise<ros_msgs::Qual>("qual");
   ros::Publisher<ros_msgs::Imu>& imu_feedback = node_handle.advertise<ros_msgs::Imu>("imu");
 
   StateMachine& state_machine = StateMachine::init(controller_master, output_velocity);
@@ -114,6 +116,13 @@ extern "C" void app_main(void)
 
       ros_msgs::Pose2D pose_msg(pose);
       pose_feedback.publish(pose_msg);
+    }
+    
+    if(qual_sensor.peekAtPose(qual))
+    {
+      //ESP_LOGI(TAG, "Qual: %d", );
+
+      qual_feedback.publish(int);
     }
     
     if(imu_sensor.getIMU(imu))

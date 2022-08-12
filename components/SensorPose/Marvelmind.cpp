@@ -270,7 +270,22 @@ void Marvelmind::_uart_read_data_task(void* pvParameters)
         //printf("\nMessageheaderPacketIdentifier: %04x\n",msg_header.packet_identifier);
         switch(msg_header.packet_identifier)
         {   
-            
+                        
+            case 0x0007:
+            {   printf("\ncase imu 0x0007\n");
+                Marvelmind_Quality_Data* msg_data = (Marvelmind_Quality_Data*) data_buffer;
+                
+                uint8_t current_qual;
+                
+                current_qual = static_cast<uint8_t>(msg_data->positioning_quality);
+                printf("positionquality:%d", msg_data->positioning_quality);
+                               
+                xQueueOverwrite(marvelmind->_current_qual_queue, &current_qual);
+                //xQueueOverwrite(marvelmind->_peek_at_qual_queue, &current_qual);
+
+                break;
+            }
+           
             case 0x0011:
             {   printf("\ncase ultrasonic 0x0011\n");
                 Marvelmind_Rx_Data* msg_data = (Marvelmind_Rx_Data*) data_buffer;
@@ -312,26 +327,7 @@ void Marvelmind::_uart_read_data_task(void* pvParameters)
                 //xQueueOverwrite(marvelmind->_peek_at_pose_queue, &current_pose);
 
                 break;
-            }
-            
-            
-            
-            case 0x0007:
-            {   printf("\ncase imu 0x0007\n");
-                Marvelmind_Quality_Data* msg_data = (Marvelmind_Quality_Data*) data_buffer;
-                uint8_t positionquality;
-                
-                printf("positionquality:%d", msg_data->positioning_quality);
-
-                positionquality = static_cast<uint8_t>(msg_data->positioning_quality);
-                               
-                //xQueueOverwrite(marvelmind->_current_pose_queue, &current_pose);
-                //xQueueOverwrite(marvelmind->_peek_at_pose_queue, &current_pose);
-
-                break;
-            }
-            //*/
-            
+            }                 
             
             
             default:
