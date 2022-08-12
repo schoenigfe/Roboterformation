@@ -1,4 +1,4 @@
-# Install script for directory: /home/jansimon/Schreibtisch/Projektarbeit/Projektarbeit/Roboterformation_ESP-IDF_Backup/components/DataLogger
+# Install script for directory: /home/jansimon/Schreibtisch/Projektarbeit/Git_Code/Roboterformation_esp/components/DataLogger
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

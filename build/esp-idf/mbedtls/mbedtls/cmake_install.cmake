@@ -39,8 +39,8 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/jansimon/Schreibtisch/Projektarbeit/Projektarbeit/Roboterformation_ESP-IDF_Backup/build/esp-idf/mbedtls/mbedtls/library/cmake_install.cmake")
-  include("/home/jansimon/Schreibtisch/Projektarbeit/Projektarbeit/Roboterformation_ESP-IDF_Backup/build/esp-idf/mbedtls/mbedtls/include/cmake_install.cmake")
+  include("/home/jansimon/Schreibtisch/Projektarbeit/Git_Code/Roboterformation_esp/build/esp-idf/mbedtls/mbedtls/library/cmake_install.cmake")
+  include("/home/jansimon/Schreibtisch/Projektarbeit/Git_Code/Roboterformation_esp/build/esp-idf/mbedtls/mbedtls/include/cmake_install.cmake")
 
 endif()
 

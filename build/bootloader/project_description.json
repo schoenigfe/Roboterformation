@@ -1,8 +1,8 @@
 {
     "project_name":       "bootloader",
     "project_path":       "/home/jansimon/esp/esp-idf/components/bootloader/subproject",
-    "build_dir":          "/home/jansimon/Schreibtisch/Projektarbeit/Projektarbeit/Roboterformation_ESP-IDF_Backup/build/bootloader",
-    "config_file":        "/home/jansimon/Schreibtisch/Projektarbeit/Projektarbeit/Roboterformation_ESP-IDF_Backup/sdkconfig",
+    "build_dir":          "/home/jansimon/Schreibtisch/Projektarbeit/Git_Code/Roboterformation_esp/build/bootloader",
+    "config_file":        "/home/jansimon/Schreibtisch/Projektarbeit/Git_Code/Roboterformation_esp/sdkconfig",
     "config_defaults":    "",
     "app_elf":            "bootloader.elf",
     "app_bin":            "bootloader.bin",

@@ -109,7 +109,7 @@ Marvelmind::Marvelmind() : _measurement_noise_cov(3, 3)
 
     _current_pose_queue = xQueueCreate(1, sizeof(ros_msgs_lw::Pose2D));
     _peek_at_pose_queue = xQueueCreate(1, sizeof(ros_msgs_lw::Pose2D));
-    _current_imu_queue = xQueueCreate(1, sizeof(ros_msgs::IMU));
+    _current_imu_queue = xQueueCreate(1, sizeof(ros_msgs_lw::Imu));
 
     xTaskCreate(_uart_read_data_task, "_uart_read_data_task", 2048, this, 5, NULL);
 }
@@ -139,7 +139,7 @@ bool Marvelmind::peekAtPose(ros_msgs_lw::Pose2D& current_pose) const
 }
 
 
-bool Marvelmind::getIMU(ros_msgs::IMU& current_imu) const
+bool Marvelmind::getIMU(ros_msgs_lw::Imu& current_imu) const
 {
     if(xQueueReceive(_current_imu_queue, &current_imu, 0) == pdPASS)
         return true;
@@ -294,7 +294,7 @@ void Marvelmind::_uart_read_data_task(void* pvParameters)
             case 0x0003:
             {   printf("\ncase imu raw 0x0003\n");
                 Marvelmind_IMU_Data* msg_data = (Marvelmind_IMU_Data*) data_buffer;
-                ros_msgs_lw::IMU current_imu;
+                ros_msgs_lw::Imu current_imu;
                 
                 current_imu.timestamp = msg_data->timestamp;
                 current_imu.quaternion_orientation_x = 0;

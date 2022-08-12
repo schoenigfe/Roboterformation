@@ -16,7 +16,7 @@ namespace ros_msgs_lw
     struct Pose2D;
     struct Twist2D;
     struct Point2D;
-    struct IMU;
+    struct Imu;
 }
 
 /**
@@ -140,18 +140,18 @@ namespace ros_msgs
             static size_t const _msg_size;
     };
     
-    struct IMU
+    struct Imu
     {   
         public:
             
-            explicit IMU(uint32_t timestamp, double quaternion_orientation_x, double quaternion_orientation_y, double quaternion_orientation_z, double quaternion_orientation_w, double angular_velocity_x, double angular_velocity_y, double angular_velocity_z, double linear_acceleration_x, double linear_acceleration_y, double linear_acceleration_z) : timestamp{timestamp}, quaternion_orientation_x{quaternion_orientation_x}, quaternion_orientation_y{quaternion_orientation_y}, quaternion_orientation_z{quaternion_orientation_z}, quaternion_orientation_w{quaternion_orientation_w}, angular_velocity_x{angular_velocity_x}, angular_velocity_y{angular_velocity_y}, angular_velocity_z{angular_velocity_z}, linear_acceleration_x{linear_acceleration_x}, linear_acceleration_y{linear_acceleration_y}, linear_acceleration_z{linear_acceleration_z} {}
+            explicit Imu(uint32_t timestamp, double quaternion_orientation_x, double quaternion_orientation_y, double quaternion_orientation_z, double quaternion_orientation_w, double angular_velocity_x, double angular_velocity_y, double angular_velocity_z, double linear_acceleration_x, double linear_acceleration_y, double linear_acceleration_z) : timestamp{timestamp}, quaternion_orientation_x{quaternion_orientation_x}, quaternion_orientation_y{quaternion_orientation_y}, quaternion_orientation_z{quaternion_orientation_z}, quaternion_orientation_w{quaternion_orientation_w}, angular_velocity_x{angular_velocity_x}, angular_velocity_y{angular_velocity_y}, angular_velocity_z{angular_velocity_z}, linear_acceleration_x{linear_acceleration_x}, linear_acceleration_y{linear_acceleration_y}, linear_acceleration_z{linear_acceleration_z} {}
             
-            explicit IMU(ros_msgs::IMU const& imu) : timestamp{imu.timestamp}, quaternion_orientation_x{imu.quaternion_orientation_x}, quaternion_orientation_y{imu.quaternion_orientation_y}, quaternion_orientation_z{imu.quaternion_orientation_z}, quaternion_orientation_w{imu.quaternion_orientation_w}, angular_velocity_x{imu.angular_velocity_x}, angular_velocity_y{imu.angular_velocity_y}, angular_velocity_z{imu.angular_velocity_z}, linear_acceleration_x{imu.linear_acceleration_x}, linear_acceleration_y{imu.linear_acceleration_y}, linear_acceleration_z{imu.linear_acceleration_z} {}
+            explicit Imu(ros_msgs::Imu const& imu) : timestamp{imu.timestamp}, quaternion_orientation_x{imu.quaternion_orientation_x}, quaternion_orientation_y{imu.quaternion_orientation_y}, quaternion_orientation_z{imu.quaternion_orientation_z}, quaternion_orientation_w{imu.quaternion_orientation_w}, angular_velocity_x{imu.angular_velocity_x}, angular_velocity_y{imu.angular_velocity_y}, angular_velocity_z{imu.angular_velocity_z}, linear_acceleration_x{imu.linear_acceleration_x}, linear_acceleration_y{imu.linear_acceleration_y}, linear_acceleration_z{imu.linear_acceleration_z} {}
             
-            explicit IMU(ros_msgs_lw::IMU const& imu);
+            explicit Imu(ros_msgs_lw::Imu const& imu);
             
             
-            IMU() : timestamp{0}, quaternion_orientation_x{0}, quaternion_orientation_y{0}, quaternion_orientation_z{0}, quaternion_orientation_w{0}, angular_velocity_x{0}, angular_velocity_y{0}, angular_velocity_z{0}, linear_acceleration_x{0}, linear_acceleration_y{0}, linear_acceleration_z{0}{}
+            Imu() : timestamp{0}, quaternion_orientation_x{0}, quaternion_orientation_y{0}, quaternion_orientation_z{0}, quaternion_orientation_w{0}, angular_velocity_x{0}, angular_velocity_y{0}, angular_velocity_z{0}, linear_acceleration_x{0}, linear_acceleration_y{0}, linear_acceleration_z{0}{}
             
             size_t getSize() const 
             { 
@@ -162,7 +162,7 @@ namespace ros_msgs
 
             static std::string getMsgType()
             {
-                return "sensor_msgs/IMU";
+                return "sensor_msgs/Imu";
             }
 
             void serialize(uint8_t* buffer) const
@@ -197,7 +197,7 @@ namespace ros_msgs
                 linear_acceleration_z = buff[10];
             }
             
-           void operator=(IMU const& imu)
+           void operator=(Imu const& imu)
             {
                 timestamp = imu.timestamp;
                 quaternion_orientation_x = imu.quaternion_orientation_x;

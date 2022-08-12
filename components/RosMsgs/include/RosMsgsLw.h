@@ -11,7 +11,7 @@ namespace ros_msgs
     struct Pose2DSim;
     struct Twist2D;
     struct Point2D;
-    struct IMU;
+    struct Imu;
 }
 
 /**
@@ -70,17 +70,17 @@ namespace ros_msgs_lw
 
     };
     
-    struct IMU
+    struct Imu
     {   
         public:
         
-            explicit IMU(uint32_t timestamp, float quaternion_orientation_x, float quaternion_orientation_y, float quaternion_orientation_z, float quaternion_orientation_w, float angular_velocity_x, float angular_velocity_y, float angular_velocity_z, float linear_acceleration_x, float linear_acceleration_y, float linear_acceleration_z);
-            explicit IMU(ros_msgs::IMU const& pose);
-            explicit IMU(dspm::Mat const& imu);
+            explicit Imu(uint32_t timestamp, float quaternion_orientation_x, float quaternion_orientation_y, float quaternion_orientation_z, float quaternion_orientation_w, float angular_velocity_x, float angular_velocity_y, float angular_velocity_z, float linear_acceleration_x, float linear_acceleration_y, float linear_acceleration_z);
+            explicit Imu(ros_msgs::Imu const& pose);
+            explicit Imu(dspm::Mat const& imu);
 
-            IMU() : timestamp{0}, quaternion_orientation_x{0}, quaternion_orientation_y{0}, quaternion_orientation_z{0}, quaternion_orientation_w{0}, angular_velocity_x{0}, angular_velocity_y{0}, angular_velocity_z{0}, linear_acceleration_x{0}, linear_acceleration_y{0}, linear_acceleration_z{0} {}
+            Imu() : timestamp{0}, quaternion_orientation_x{0}, quaternion_orientation_y{0}, quaternion_orientation_z{0}, quaternion_orientation_w{0}, angular_velocity_x{0}, angular_velocity_y{0}, angular_velocity_z{0}, linear_acceleration_x{0}, linear_acceleration_y{0}, linear_acceleration_z{0} {}
 
-            void operator=(IMU const& imu);
+            void operator=(Imu const& imu);
 
             //void operator=(dspm::Mat const& imu);
         
