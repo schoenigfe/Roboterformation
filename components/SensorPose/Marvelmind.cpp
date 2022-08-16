@@ -110,6 +110,7 @@ Marvelmind::Marvelmind() : _measurement_noise_cov(3, 3)
     _current_pose_queue = xQueueCreate(1, sizeof(ros_msgs_lw::Pose2D));
     _peek_at_pose_queue = xQueueCreate(1, sizeof(ros_msgs_lw::Pose2D));
     _current_imu_queue = xQueueCreate(1, sizeof(ros_msgs_lw::Imu));
+    _current_qual_queue = xQueueCreate(1, sizeof(ros_msgs_lw::Qual));
 
     xTaskCreate(_uart_read_data_task, "_uart_read_data_task", 2048, this, 5, NULL);
 }
@@ -229,6 +230,22 @@ bool Marvelmind::calculateKalman(ros_msgs_lw::Pose2D const& a_priori_estimate, d
 bool Marvelmind::getAbsolutePose(ros_msgs_lw::Pose2D& initial_pose) const
 {
     if(xQueueReceive(_current_pose_queue, &initial_pose, 0) == pdPASS)
+        return true;
+
+    return false;
+}
+
+bool Marvelmind::getQual(ros_msgs::Qual& current_qual) const
+{
+    if(xQueueReceive(_current_qual_queue, &current_qual, 0) == pdPASS)
+        return true;
+
+    return false;
+}
+
+bool Marvelmind::peekAtQual(ros_msgs::Qual& current_qual) const
+{
+    if(xQueuePeek(_current_qual_queue, &current_qual, 0) == pdPASS)
         return true;
 
     return false;

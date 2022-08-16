@@ -17,6 +17,7 @@ namespace ros_msgs_lw
     struct Twist2D;
     struct Point2D;
     struct Imu;
+    struct Qual;
 }
 
 /**
@@ -140,6 +141,44 @@ namespace ros_msgs
             static size_t const _msg_size;
     };
     
+    struct Qual
+    {
+		public: 
+			explicit Qual(int qual) : qual{qual} {}
+			//explicit Qual(ros_msgs::Qual const& qual) : qual{Qual.qual} {}
+			explicit Qual(ros_msgs_lw::Qual const& qual);
+			Qual() : qual{0} {}
+			
+            size_t getSize() const 
+            { 
+                return _msg_size; 
+            }
+            
+            void allocateMemory(int32_t msg_len) {}
+
+            static std::string getMsgType()
+            {
+                return "sensor_msgs/Qual";
+            }
+            
+            void serialize(uint8_t* buffer) const
+            { 
+                double* buff = (double*)buffer;
+                buff[0] = qual;
+            }
+
+            void deserialize(uint8_t* buffer)
+            {
+                double* buff = (double*)buffer;
+                qual= buff[0];
+            }
+            
+            int qual;
+            
+        private:
+            static size_t const _msg_size;
+	};
+    
     struct Imu
     {   
         public:
@@ -242,7 +281,7 @@ namespace ros_msgs
                 theta = atan2(sin(theta), cos(theta));
             }
             
-            explicit Pose2D(ros_msgs::Pose2DSim const& pose) : x{pose.y}, y{pose.y}, theta{pose.theta} {}
+            explicit Pose2D(ros_msgs::Pose2DSim const& pose) : x{pose.x}, y{pose.y}, theta{pose.theta} {}
             
             explicit Pose2D(ros_msgs_lw::Pose2D const& pose);
             

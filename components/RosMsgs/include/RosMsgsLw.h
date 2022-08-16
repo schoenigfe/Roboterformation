@@ -12,6 +12,7 @@ namespace ros_msgs
     struct Twist2D;
     struct Point2D;
     struct Imu;
+    struct Qual;
 }
 
 /**
@@ -108,6 +109,24 @@ namespace ros_msgs_lw
     
     dspm::Mat operator*(dspm::Mat const& mat, IMU const& imu);
     */
+    
+    struct Qual
+    {
+		public: 
+			explicit Qual(int& qual);
+			explicit Qual(int qual) : qual{qual} {}
+			Qual() : qual{0} {}
+			
+            size_t getSize() const 
+            { 
+                return _msg_size; 
+            }          
+            
+            int qual;
+            
+        private:
+            static size_t const _msg_size;
+	};
     
     Pose2D operator*(float scalar, Pose2D const& pose);
 

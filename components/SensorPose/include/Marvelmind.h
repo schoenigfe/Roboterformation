@@ -33,7 +33,8 @@ class Marvelmind : public KalmanSensor, public SensorPose
         
         bool peekAtPose(ros_msgs_lw::Pose2D& current_pose) const override; 
         bool getPose(ros_msgs_lw::Pose2D& current_pose) const override;
-        bool getQual(ros_msgs_lw::Imu& current_imu) const; //override;     
+        bool getQual(ros_msgs::Qual& current_qual) const; //override;     
+        bool peekAtQual(ros_msgs::Qual& current_qual) const; //override;     
         bool getIMU(ros_msgs_lw::Imu& current_imu) const; //override;         
         void reInit() override {}
 

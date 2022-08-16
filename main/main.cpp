@@ -93,7 +93,7 @@ extern "C" void app_main(void)
   ControllerMaster& controller_master = ControllerMaster::init(output_velocity, pose_sensor);
 
   ros::Publisher<ros_msgs::Pose2D>& pose_feedback = node_handle.advertise<ros_msgs::Pose2D>("pose2D");
-  //ros::Publisher<ros_msgs::Qual>& qual_feedback = node_handle.advertise<ros_msgs::Qual>("qual");
+  ros::Publisher<ros_msgs::Qual>& qual_feedback = node_handle.advertise<ros_msgs::Qual>("qual");
   ros::Publisher<ros_msgs::Imu>& imu_feedback = node_handle.advertise<ros_msgs::Imu>("imu");
 
   StateMachine& state_machine = StateMachine::init(controller_master, output_velocity);
@@ -109,6 +109,7 @@ extern "C" void app_main(void)
   while(1) 
   { 
     ros_msgs_lw::Pose2D pose;
+    ros_msgs::Qual qual;
     ros_msgs_lw::Imu imu;
     if(pose_sensor.peekAtPose(pose))
     {
@@ -118,11 +119,10 @@ extern "C" void app_main(void)
       pose_feedback.publish(pose_msg);
     }
     
-    if(qual_sensor.peekAtPose(qual))
+    if(qual_sensor.peekAtQual(qual))
     {
-      //ESP_LOGI(TAG, "Qual: %d", );
-
-      qual_feedback.publish(int);
+      ros_msgs::Qual qual_msg(qual);
+      qual_feedback.publish(qual_msg);
     }
     
     if(imu_sensor.getIMU(imu))
