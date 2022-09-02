@@ -17,7 +17,7 @@ namespace ros_msgs_lw
     struct Twist2D;
     struct Point2D;
     struct Imu;
-    struct Qual;
+    struct PoseQual;
 }
 
 /**
@@ -141,52 +141,12 @@ namespace ros_msgs
             static size_t const _msg_size;
     };
     
-    struct Qual
-    {
-		public: 
-			explicit Qual(int qual) : qual{qual} {}
-			//explicit Qual(ros_msgs::Qual const& qual) : qual{Qual.qual} {}
-			explicit Qual(ros_msgs_lw::Qual const& qual);
-			Qual() : qual{0} {}
-			
-            size_t getSize() const 
-            { 
-                return _msg_size; 
-            }
-            
-            void allocateMemory(int32_t msg_len) {}
-
-            static std::string getMsgType()
-            {
-                return "sensor_msgs/Qual";
-            }
-            
-            void serialize(uint8_t* buffer) const
-            { 
-                double* buff = (double*)buffer;
-                buff[0] = qual;
-            }
-
-            void deserialize(uint8_t* buffer)
-            {
-                double* buff = (double*)buffer;
-                qual= buff[0];
-            }
-            
-            int qual;
-            
-        private:
-            static size_t const _msg_size;
-	};
-    
     struct Imu
     {   
         public:
             
             explicit Imu(uint32_t timestamp, double quaternion_orientation_x, double quaternion_orientation_y, double quaternion_orientation_z, double quaternion_orientation_w, double angular_velocity_x, double angular_velocity_y, double angular_velocity_z, double linear_acceleration_x, double linear_acceleration_y, double linear_acceleration_z) : timestamp{timestamp}, quaternion_orientation_x{quaternion_orientation_x}, quaternion_orientation_y{quaternion_orientation_y}, quaternion_orientation_z{quaternion_orientation_z}, quaternion_orientation_w{quaternion_orientation_w}, angular_velocity_x{angular_velocity_x}, angular_velocity_y{angular_velocity_y}, angular_velocity_z{angular_velocity_z}, linear_acceleration_x{linear_acceleration_x}, linear_acceleration_y{linear_acceleration_y}, linear_acceleration_z{linear_acceleration_z} {}
-            
             explicit Imu(ros_msgs::Imu const& imu) : timestamp{imu.timestamp}, quaternion_orientation_x{imu.quaternion_orientation_x}, quaternion_orientation_y{imu.quaternion_orientation_y}, quaternion_orientation_z{imu.quaternion_orientation_z}, quaternion_orientation_w{imu.quaternion_orientation_w}, angular_velocity_x{imu.angular_velocity_x}, angular_velocity_y{imu.angular_velocity_y}, angular_velocity_z{imu.angular_velocity_z}, linear_acceleration_x{imu.linear_acceleration_x}, linear_acceleration_y{imu.linear_acceleration_y}, linear_acceleration_z{imu.linear_acceleration_z} {}
-            
             explicit Imu(ros_msgs_lw::Imu const& imu);
             
             
@@ -269,6 +229,44 @@ namespace ros_msgs
     };
     
     
+    
+    struct PoseQual
+    {
+		public: 
+			explicit PoseQual(int poseQual) : q{q} {}
+			explicit PoseQual(ros_msgs_lw::PoseQual const& qual);
+			
+			PoseQual() : q{0} {}
+            			
+            size_t getSize() const 
+            { 
+                return _msg_size; 
+            }
+            
+            void allocateMemory(int32_t msg_len) {}
+
+            static std::string getMsgType()
+            {
+                return "sensor_msgs/PoseQual";
+            }
+            
+            void serialize(uint8_t* buffer) const
+            { 
+                double* buff = (double*)buffer;
+                buff[0] = q;
+            }
+
+            void deserialize(uint8_t* buffer)
+            {
+                double* buff = (double*)buffer;
+                q = buff[0];
+            }
+            
+            int q;
+            
+        private:
+            static size_t const _msg_size;
+	};
     
     
     struct Pose2D

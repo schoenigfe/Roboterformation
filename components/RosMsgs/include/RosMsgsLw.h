@@ -12,7 +12,7 @@ namespace ros_msgs
     struct Twist2D;
     struct Point2D;
     struct Imu;
-    struct Qual;
+    struct PoseQual;
 }
 
 /**
@@ -40,7 +40,18 @@ namespace ros_msgs_lw
             float x;
             float y;
             float theta;
-    };
+               };
+	   
+	Pose2D operator*(float scalar, Pose2D const& pose);
+
+	Pose2D operator+(Pose2D const& pose_1, Pose2D const& pose_2);
+
+	Pose2D operator-(Pose2D const& pose_1, Pose2D const& pose_2);
+
+	Pose2D operator+(Pose2D const& pose, dspm::Mat const& mat);
+
+	dspm::Mat operator*(dspm::Mat const& mat, Pose2D const& pose);
+
 
     struct Twist2D
     {
@@ -110,32 +121,22 @@ namespace ros_msgs_lw
     dspm::Mat operator*(dspm::Mat const& mat, IMU const& imu);
     */
     
-    struct Qual
+    struct PoseQual
     {
 		public: 
-			explicit Qual(int& qual);
-			explicit Qual(int qual) : qual{qual} {}
-			Qual() : qual{0} {}
+			explicit PoseQual(int q);
+			explicit PoseQual(ros_msgs::PoseQual const& qual);
+			
+			PoseQual() : q{0} {}
 			
             size_t getSize() const 
             { 
                 return _msg_size; 
             }          
             
-            int qual;
+            int q;
             
         private:
             static size_t const _msg_size;
 	};
-    
-    Pose2D operator*(float scalar, Pose2D const& pose);
-
-    Pose2D operator+(Pose2D const& pose_1, Pose2D const& pose_2);
-
-    Pose2D operator-(Pose2D const& pose_1, Pose2D const& pose_2);
-
-    Pose2D operator+(Pose2D const& pose, dspm::Mat const& mat);
-
-    dspm::Mat operator*(dspm::Mat const& mat, Pose2D const& pose);
-
 }

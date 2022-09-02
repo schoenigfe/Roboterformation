@@ -134,7 +134,7 @@ namespace ros_msgs_lw
     
     Imu::Imu(ros_msgs::Imu const& imu) : timestamp{static_cast<uint32_t>(imu.timestamp)}, quaternion_orientation_x{static_cast<float>(imu.quaternion_orientation_x)}, quaternion_orientation_y{static_cast<float>(imu.quaternion_orientation_y)}, quaternion_orientation_z{static_cast<float>(imu.quaternion_orientation_z)}, quaternion_orientation_w{static_cast<float>(imu.quaternion_orientation_w)}, angular_velocity_x{static_cast<float>(imu.angular_velocity_x)}, angular_velocity_y{static_cast<float>(imu.angular_velocity_y)}, angular_velocity_z{static_cast<float>(imu.angular_velocity_z)}, linear_acceleration_x{static_cast<float>(imu.linear_acceleration_x)}, linear_acceleration_y{static_cast<float>(imu.linear_acceleration_y)}, linear_acceleration_z{static_cast<float>(imu.linear_acceleration_z)} {}
   
-  void Imu::operator=(Imu const& imu)
+	void Imu::operator=(Imu const& imu)
             {
                 timestamp = imu.timestamp;
                 quaternion_orientation_x = imu.quaternion_orientation_x;
@@ -148,11 +148,7 @@ namespace ros_msgs_lw
                 linear_acceleration_y = imu.linear_acceleration_y;
                 linear_acceleration_z = imu.linear_acceleration_z;
             }
- 
-    
-    
-    
-    
-    
-    
+
+	PoseQual::PoseQual(int q) : q{q} {}
+	PoseQual::PoseQual(ros_msgs::PoseQual const& qual) : q{static_cast<int>(qual.q)} {}
 }

@@ -131,7 +131,7 @@ CONFIG_PARTITION_TABLE_MD5=y
 #
 # Socket Configuration
 #
-CONFIG_SERVER_IP_ADDR="192.168.1.148"
+CONFIG_SERVER_IP_ADDR="0.0.0.0"
 CONFIG_ROS_SOCKET_PORT=2888
 # end of Socket Configuration
 
@@ -143,6 +143,13 @@ CONFIG_DATA_LOG_BUFFER_SIZE=2048
 CONFIG_DATA_LOG_QUEUE_SIZE=32
 CONFIG_MAX_LOG_TIME_SECONDS=120
 # end of Data Logger
+
+#
+# I2C Configuration
+#
+CONFIG_I2C_MASTER_SCL=19
+CONFIG_I2C_MASTER_SDA=18
+# end of I2C Configuration
 
 #
 # LED Strip Configuration
@@ -178,8 +185,8 @@ CONFIG_UART_RX_BUFFER=512
 #
 # Wifi Configuration
 #
-CONFIG_WIFI_SSID="MartinRouterKing"
-CONFIG_WIFI_PASSWORD="roboterformation"
+CONFIG_WIFI_SSID="myssid"
+CONFIG_WIFI_PASSWORD="mypassword"
 CONFIG_WIFI_MAX_RETRY=5
 # end of Wifi Configuration
 
