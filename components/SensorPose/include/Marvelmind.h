@@ -13,7 +13,8 @@
  * The Marvelmind class drives the UART communication with the Marvelmind RX Beacon.
  * It can be used as a standalone SensorPose or as a source for the KalmanFilter.
  */
-class Marvelmind{
+class Marvelmind
+{
     public:
 		static SensorValue<ros_msgs_lw::Pose2D>* pose;
 		static SensorValue<ros_msgs_lw::PoseQual>* poseQual;
@@ -28,5 +29,3 @@ class Marvelmind{
         static const uart_config_t _uart_conf;
         TaskHandle_t _uart_read_data_task_handle;   
 };
-
-

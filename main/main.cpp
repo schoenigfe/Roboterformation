@@ -1,7 +1,6 @@
 #include "esp_err.h"
 #include "nvs_flash.h"
 #include "esp_log.h"
-
 #include "Wifi.h"
 #include "SensorValue.h"
 #include "Marvelmind.h"
@@ -20,17 +19,13 @@
 #include "LedStrip.h"
 
 #define TAG "Main"
-
 #define DATA_LOGGING
 #include "DataLogger.h"
-
 //#define USE_SIM
 #define KALMAN
 //#define STEP_RESPONSE
-
 #define ROS_SOCKET_PORT CONFIG_ROS_SOCKET_PORT
 #define SERVER_IP_ADDR CONFIG_SERVER_IP_ADDR
-
 
 extern "C" void app_main(void)
 {   
@@ -51,21 +46,11 @@ extern "C" void app_main(void)
 	Motor& motor_b = Motor::init_b();
 	MotorController& motor_controller = MotorController::init(motor_a, motor_b);
 	
-	/*#ifdef KALMAN
-	SensorPoseSim& sim_sensor = SensorPoseSim::init(node_handle);
-	SensorPose& pose_sensor = KalmanFilter::init({&sim_sensor}, output_velocity);
-	#else
-	SensorPose& pose_sensor = SensorPoseSim::init(node_handle);
-	#endif*/
-	
-	
 	#ifdef STEP_RESPONSE
 		motor_controller.disablePIcontrol();
 	#endif
-	
 	OutputVelocity& output_velocity = OutputVelocityImpl::init(motor_controller);
-	
-	Marvelmind marvelmind_sensor;
+	static Marvelmind marvelmind_sensor;
 	SensorValue<ros_msgs_lw::Pose2D> pose;
 	#ifdef KALMAN
 		//Kalman kalman_filter;

@@ -6,6 +6,10 @@
 #define UART_BAUDRATE CONFIG_UART_BAUDRATE
 #define UART_RX_BUFFER CONFIG_UART_RX_BUFFER
 
+SensorValue<ros_msgs_lw::Pose2D>* Marvelmind::pose = new SensorValue<ros_msgs_lw::Pose2D>;
+SensorValue<ros_msgs_lw::PoseQual>* Marvelmind::poseQual = new SensorValue<ros_msgs_lw::PoseQual>;
+SensorValue<ros_msgs_lw::Imu>* Marvelmind::imu = new SensorValue<ros_msgs_lw::Imu>;
+
 struct __attribute__((packed, aligned(1))) Marvelmind_Msg_Header  
 {
     uint8_t destination_addr;
@@ -135,12 +139,7 @@ Marvelmind::Marvelmind()
 {
     ESP_ERROR_CHECK(uart_driver_install(_uart_port, UART_RX_BUFFER, 0, 0, NULL, 0));
     ESP_ERROR_CHECK(uart_param_config(_uart_port, &_uart_conf));
-    ESP_ERROR_CHECK(uart_set_pin(_uart_port, UART_TX_PIN, UART_RX_PIN, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE));
-
-	pose = new SensorValue<ros_msgs_lw::Pose2D>;
-	poseQual = new SensorValue<ros_msgs_lw::PoseQual>;
-	imu = new SensorValue<ros_msgs_lw::Imu>;
-	
+    ESP_ERROR_CHECK(uart_set_pin(_uart_port, UART_TX_PIN, UART_RX_PIN, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE));	
     xTaskCreate(_uart_read_data_task, "_uart_read_data_task", 2048, this, 5, NULL);
 }
 Marvelmind::~Marvelmind() 
@@ -149,5 +148,9 @@ Marvelmind::~Marvelmind()
 	delete pose;
 	delete poseQual;
 	delete imu;
+    pose = nullptr;
+    poseQual = nullptr;
+    imu = nullptr;
+
 }
 
