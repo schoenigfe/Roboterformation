@@ -1,4 +1,4 @@
-#include "SensorValue.h"
+/* #include "SensorValue.h"
 
        
 template <typename T>
@@ -37,3 +37,4 @@ SensorValue<T>::~SensorValue()
 	vQueueDelete(_peek_at_value_queue);
 	vQueueDelete(_current_value_queue);	
 }
+*/
