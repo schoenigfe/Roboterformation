@@ -7,7 +7,7 @@
 
 ControllerMaster* ControllerMaster::_controller_obj = nullptr;
 
-ControllerMaster::ControllerMaster(OutputVelocity& output_velocity, SensorPose& sensor_pose) : _pos_controller{nullptr}, _output_velocity{output_velocity}, _sensor_pose{sensor_pose}
+ControllerMaster::ControllerMaster(OutputVelocity& output_velocity, SensorValue<ros_msgs_lw::Pose2D>& sensor_pose) : _pos_controller{nullptr}, _output_velocity{output_velocity}, _sensor_pose{sensor_pose}
 {   
     _pos_controller_mutx = xSemaphoreCreateMutex();
 
@@ -30,7 +30,7 @@ ControllerMaster::~ControllerMaster()
     _pos_controller = nullptr; 
 }
 
-ControllerMaster& ControllerMaster::init(OutputVelocity& output_velocity, SensorPose& sensor_pose)
+ControllerMaster& ControllerMaster::init(OutputVelocity& output_velocity, SensorValue<ros_msgs_lw::Pose2D>& sensor_pose)
 {
     if(_controller_obj == nullptr)
         _controller_obj = new ControllerMaster(output_velocity, sensor_pose);
@@ -49,7 +49,7 @@ void ControllerMaster::start_controller(PositionController* pos_controller, std:
 
         _controller_obj->_destination_reached_callback = callback_function;
 
-        _sensor_pose.reInit();
+        //_sensor_pose.reInit();
 
         _controller_is_stopped = false;
         xTimerStart(_control_loop_timer_handle, portMAX_DELAY);
@@ -91,7 +91,7 @@ void ControllerMaster::_control_loop_task(void* pvParameters)
         {
             //Input
             ros_msgs_lw::Pose2D actual_pose;
-            if(controller_obj._sensor_pose.getPose(actual_pose) == true)
+            if(controller_obj._sensor_pose.getValue(actual_pose) == true)
             {
 
                 uint64_t time = esp_timer_get_time();

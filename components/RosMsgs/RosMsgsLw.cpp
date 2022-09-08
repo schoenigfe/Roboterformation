@@ -149,6 +149,6 @@ namespace ros_msgs_lw
                 linear_acceleration_z = imu.linear_acceleration_z;
             }
 
-	PoseQual::PoseQual(int q) : q{q} {}
-	PoseQual::PoseQual(ros_msgs::PoseQual const& qual) : q{static_cast<int>(qual.q)} {}
+	PoseQual::PoseQual(uint q) : q{q} {}
+	PoseQual::PoseQual(ros_msgs::PoseQual const& qual) : q{static_cast<uint>(qual.q)} {}
 }

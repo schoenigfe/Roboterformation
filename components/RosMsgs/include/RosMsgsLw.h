@@ -124,7 +124,7 @@ namespace ros_msgs_lw
     struct PoseQual
     {
 		public: 
-			explicit PoseQual(int q);
+			explicit PoseQual(uint q);
 			explicit PoseQual(ros_msgs::PoseQual const& qual);
 			
 			PoseQual() : q{0} {}
@@ -134,7 +134,7 @@ namespace ros_msgs_lw
                 return _msg_size; 
             }          
             
-            int q;
+            uint q;
             
         private:
             static size_t const _msg_size;

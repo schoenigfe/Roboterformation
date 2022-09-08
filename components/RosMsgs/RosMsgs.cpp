@@ -17,5 +17,5 @@ namespace ros_msgs
     Twist2D::Twist2D(ros_msgs_lw::Twist2D const& velocity) : v{static_cast<double>(velocity.v)}, w{static_cast<double>(velocity.w)} {}
     Point2D::Point2D(ros_msgs_lw::Point2D const& point) : x{static_cast<double>(point.x)}, y{static_cast<double>(point.y)} {}
     Imu::Imu(ros_msgs_lw::Imu const& imu) : timestamp{static_cast<uint32_t>(imu.timestamp)}, quaternion_orientation_x{static_cast<double>(imu.quaternion_orientation_x)}, quaternion_orientation_y{static_cast<double>(imu.quaternion_orientation_y)}, quaternion_orientation_z{static_cast<double>(imu.quaternion_orientation_z)}, quaternion_orientation_w{static_cast<double>(imu.quaternion_orientation_w)}, angular_velocity_x{static_cast<double>(imu.angular_velocity_x)}, angular_velocity_y{static_cast<double>(imu.angular_velocity_y)}, angular_velocity_z{static_cast<double>(imu.angular_velocity_z)}, linear_acceleration_x{static_cast<double>(imu.linear_acceleration_x)}, linear_acceleration_y{static_cast<double>(imu.linear_acceleration_y)}, linear_acceleration_z{static_cast<double>(imu.linear_acceleration_z)} {}
-	PoseQual::PoseQual(ros_msgs_lw::PoseQual const& qual) : q{static_cast<int>(qual.q)} {}
+	PoseQual::PoseQual(ros_msgs_lw::PoseQual const& qual) : q{static_cast<uint32_t>(qual.q)} {}
 }

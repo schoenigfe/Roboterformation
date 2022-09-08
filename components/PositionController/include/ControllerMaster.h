@@ -8,7 +8,7 @@
 #include "PositionController.h"
 #include "RosMsgsLw.h"
 #include "OutputVelocity.h"
-#include "SensorPose.h"
+#include "SensorValue.h"
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/timers.h"
@@ -31,10 +31,10 @@ class ControllerMaster
          * @note It is safe to call this function multiple times. It will only create one instance.
          * 
          * param [in] output_velocity reference to the OutputVelocity object
-         * param [in] sensor_pose reference to the SensorPose object
+         * param [in] sensor_pose reference to the SensorValue<ros_msgs_lw::Pose2D> object
          * @return Reference to the ControllerMaster instance
          */  
-        static ControllerMaster& init(OutputVelocity& output_velocity, SensorPose& sensor_pose);
+        static ControllerMaster& init(OutputVelocity& output_velocity, SensorValue<ros_msgs_lw::Pose2D>& sensor_pose);
 
         /**
          * @brief This function starts the navigation. The navigation type (drive to point or trajectory tracking) is dependent on the provided PositonController object.
@@ -53,7 +53,7 @@ class ControllerMaster
 
 
     private:
-        ControllerMaster(OutputVelocity& ouput_velocity, SensorPose& sensor_pose);
+        ControllerMaster(OutputVelocity& ouput_velocity, SensorValue<ros_msgs_lw::Pose2D>& sensor_pose);
         ControllerMaster(const ControllerMaster&) = delete;
         ~ControllerMaster();
 
@@ -70,7 +70,7 @@ class ControllerMaster
         std::function<void()>_destination_reached_callback;
 
         OutputVelocity& _output_velocity;
-        SensorPose& _sensor_pose;
+        SensorValue<ros_msgs_lw::Pose2D>& _sensor_pose;
 
         TimerHandle_t _control_loop_timer_handle;
         TaskHandle_t _control_loop_task_handle;
