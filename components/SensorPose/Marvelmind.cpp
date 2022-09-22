@@ -91,7 +91,7 @@ void Marvelmind::_uart_read_data_task(void* pvParameters)
         switch(msg_header.packet_identifier)
         {                       
             case 0x0003:
-            {   printf("\ncase imu 0x0003\n");
+            {   //printf("\ncase imu 0x0003\n");
                 Marvelmind_IMU_Data* msg_data = (Marvelmind_IMU_Data*) data_buffer;
                 ros_msgs_lw::Imu current_imu;
                 current_imu.timestamp = msg_data->timestamp;
@@ -109,15 +109,15 @@ void Marvelmind::_uart_read_data_task(void* pvParameters)
                 break;
             }                     
             case 0x0007:
-            {   printf("\ncase quality 0x0007\n");
+            {   //printf("\ncase quality 0x0007\n");
                 Marvelmind_Quality_Data* msg_data = (Marvelmind_Quality_Data*) data_buffer;                
                 ros_msgs_lw::PoseQual current_qual;                
-                current_qual.q = static_cast<uint>(msg_data->positioning_quality);                               
+                current_qual.q = static_cast<uint8_t>(msg_data->positioning_quality);                               
 				poseQual->overwriteValue(current_qual);
                 break;
             }           
             case 0x0011:
-            {   printf("\ncase ultrasonic 0x0011\n");
+            {   //printf("\ncase ultrasonic 0x0011\n");
                 Marvelmind_Rx_Data* msg_data = (Marvelmind_Rx_Data*) data_buffer;
                 ros_msgs_lw::Pose2D current_pose;
                 current_pose.x = (static_cast<float>(msg_data->x_coordinate_mm) - 16.739) / 1000.;

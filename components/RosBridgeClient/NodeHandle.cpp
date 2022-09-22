@@ -1,7 +1,5 @@
 #include "NodeHandle.h"
-
 #include "esp_log.h"
-
 namespace ros
 {   
     #define TAG "NodeHandle"
@@ -122,6 +120,7 @@ namespace ros
             if(node_handle->_interpret_receive() == SOCKET_FAIL)
             {
                 ESP_LOGE(TAG,"Interpret Receive failed!");
+                printf("Interpret Receive failed! \n");
                 node_handle->_restart_protocol();
             }
 
@@ -149,6 +148,7 @@ namespace ros
             uint8_t msg_id;
 
             status_error = _sock.socket_receive_nonblock(&msg_id, 1);
+            printf("MSG_ID: %d \n", msg_id);
 
             if(status_error == SOCKET_FAIL)
             {
@@ -167,9 +167,10 @@ namespace ros
                     uint64_t server_time;
                     status_error = _sock.socket_receive((uint8_t*)&server_time, sizeof(server_time));
 
-                    if(status_error == SOCKET_FAIL)
+                    if(status_error == SOCKET_FAIL){
+                        printf("Error with Keep_alive_id");
                         break;
-
+                    }
                     _keep_alive_time_us = esp_timer_get_time();
 
                     _server_time_difference_us = server_time - _keep_alive_time_us;
@@ -183,20 +184,21 @@ namespace ros
                     std::string topic;
                     status_error = _sock.socket_receive_string(topic, MAX_TOPIC_LENGTH);
 
-                    if(status_error == SOCKET_FAIL)
-                        break;
-
+                    if(status_error == SOCKET_FAIL){
+                        printf("Error with Publish_id");
+                        break;}
                     //ESP_LOGI(TAG, "Received topic: %s", topic.c_str());
-                    
+                    printf("Publish_id received: %d", msg_id);
                     Subscriber* sub = _getSubscriber(topic);
-
                     if(sub != nullptr)
                     {
-                        if(sub->recvMessage() == false)
-                            status_error = SOCKET_FAIL;
+                        if(sub->recvMessage() == false){
+                            printf("Error Publish_id");
+                            status_error = SOCKET_FAIL;}
                     }
-                    else
-                        status_error = SOCKET_FAIL;
+                    else{
+                        printf("Wrong Publish_id");
+                        status_error = SOCKET_FAIL;}
 
                     break;
                 }
@@ -206,9 +208,9 @@ namespace ros
                     break;
             }
 
-            if(status_error == SOCKET_FAIL)
-                break;
-
+            if(status_error == SOCKET_FAIL){
+                printf("Socket Fail");
+                break;}
         }
 
         return status_error;

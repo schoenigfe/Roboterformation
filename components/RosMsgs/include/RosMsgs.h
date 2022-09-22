@@ -91,7 +91,7 @@ namespace ros_msgs
 
     };
 
-    struct Pose2DSim
+    /*struct Pose2DSim
     {   
         public:
             explicit Pose2DSim(float x, float y, float theta) : x{x}, y{y}, theta{theta} 
@@ -139,7 +139,7 @@ namespace ros_msgs
 
         private:
             static size_t const _msg_size;
-    };
+    };*/
     
     struct Imu
     {   
@@ -233,7 +233,7 @@ namespace ros_msgs
     struct PoseQual
     {
 		public: 
-			explicit PoseQual(uint poseQual) : q{q} {}
+			explicit PoseQual(uint8_t poseQual) : q{q} {}
 			explicit PoseQual(ros_msgs_lw::PoseQual const& qual);
 			
 			PoseQual() : q{0} {}
@@ -251,18 +251,20 @@ namespace ros_msgs
             }
             
             void serialize(uint8_t* buffer) const
-            { 
-                double* buff = (double*)buffer;
+            { 				
+                uint8_t* buff = (uint8_t*)buffer;
                 buff[0] = q;
+                //printf("-buffer------------%d\n", buffer);
+                //printf("buff-------------%d\n", buff);
             }
 
             void deserialize(uint8_t* buffer)
             {
-                double* buff = (double*)buffer;
+                uint8_t* buff = (uint8_t*)buffer;
                 q = buff[0];
             }
             
-            uint q;
+            uint8_t q;
             
         private:
             static size_t const _msg_size;
@@ -279,7 +281,7 @@ namespace ros_msgs
                 theta = atan2(sin(theta), cos(theta));
             }
             
-            explicit Pose2D(ros_msgs::Pose2DSim const& pose) : x{pose.x}, y{pose.y}, theta{pose.theta} {}
+            //explicit Pose2D(ros_msgs::Pose2DSim const& pose) : x{pose.x}, y{pose.y}, theta{pose.theta} {}
             
             explicit Pose2D(ros_msgs_lw::Pose2D const& pose);
             
@@ -328,7 +330,7 @@ namespace ros_msgs
                 theta = atan2(sin(theta), cos(theta));
             }
            
-            void operator=(Pose2DSim const& pose)
+            /*void operator=(Pose2DSim const& pose)
             {
                 x = pose.x;
                 y = pose.y;
@@ -336,7 +338,7 @@ namespace ros_msgs
 
                 //Keep theta between -pi and pi
                 theta = atan2(sin(theta), cos(theta));
-            }
+            }*/
             double x;
             double y;
             double theta;

@@ -11,7 +11,7 @@ namespace ros_msgs_lw
 
     Pose2D::Pose2D(ros_msgs::Pose2D const& pose) : x{static_cast<float>(pose.x)}, y{static_cast<float>(pose.y)}, theta{static_cast<float>(pose.theta)} {}
 
-    Pose2D::Pose2D(ros_msgs::Pose2DSim const& pose) : x{pose.x}, y{pose.y}, theta{pose.theta} {}
+    //Pose2D::Pose2D(ros_msgs::Pose2DSim const& pose) : x{pose.x}, y{pose.y}, theta{pose.theta} {}
 
     Pose2D::Pose2D(dspm::Mat const& pose) 
     {
@@ -149,6 +149,6 @@ namespace ros_msgs_lw
                 linear_acceleration_z = imu.linear_acceleration_z;
             }
 
-	PoseQual::PoseQual(uint q) : q{q} {}
-	PoseQual::PoseQual(ros_msgs::PoseQual const& qual) : q{static_cast<uint>(qual.q)} {}
+	PoseQual::PoseQual(uint8_t q) : q{q} {}
+	PoseQual::PoseQual(ros_msgs::PoseQual const& qual) : q{static_cast<uint8_t>(qual.q)} {}
 }

@@ -8,7 +8,7 @@
 namespace ros_msgs
 {
     struct Pose2D;
-    struct Pose2DSim;
+    //struct Pose2DSim;
     struct Twist2D;
     struct Point2D;
     struct Imu;
@@ -28,7 +28,7 @@ namespace ros_msgs_lw
         
             explicit Pose2D(float x, float y, float theta);
             explicit Pose2D(ros_msgs::Pose2D const& pose);
-            explicit Pose2D(ros_msgs::Pose2DSim const& pose);
+            //explicit Pose2D(ros_msgs::Pose2DSim const& pose);
             explicit Pose2D(dspm::Mat const& pose);
         
             Pose2D() : x{0}, y{0}, theta{0} {}
@@ -124,18 +124,14 @@ namespace ros_msgs_lw
     struct PoseQual
     {
 		public: 
-			explicit PoseQual(uint q);
-			explicit PoseQual(ros_msgs::PoseQual const& qual);
-			
-			PoseQual() : q{0} {}
-			
+			explicit PoseQual(uint8_t q);
+			explicit PoseQual(ros_msgs::PoseQual const& qual);			
+			PoseQual() : q{0} {}			
             size_t getSize() const 
             { 
                 return _msg_size; 
-            }          
-            
-            uint q;
-            
+            }            
+            uint8_t q;
         private:
             static size_t const _msg_size;
 	};
