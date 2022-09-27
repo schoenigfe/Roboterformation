@@ -1,3 +1,6 @@
+build/.bin_timestamp
+build/.ninja_deps
+build/.ninja_log
 build/app-flash_args
 build/bootloader
 build/bootloader-flash_args

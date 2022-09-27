@@ -65,7 +65,7 @@ extern "C" void app_main(void)
 	
 	ControllerMaster& controller_master = ControllerMaster::init(output_velocity, pose);
 	
-	//ros::Publisher<ros_msgs::Pose2D>& pose_feedback = node_handle.advertise<ros_msgs::Pose2D>("pose2D");
+	ros::Publisher<ros_msgs::Pose2D>& pose_feedback = node_handle.advertise<ros_msgs::Pose2D>("pose2D");
 	ros::Publisher<ros_msgs::PoseQual>& qual_feedback = node_handle.advertise<ros_msgs::PoseQual>("qual");
 	//ros::Publisher<ros_msgs::Imu>& imu_feedback = node_handle.advertise<ros_msgs::Imu>("imu");
 	
@@ -88,7 +88,7 @@ extern "C" void app_main(void)
 		{
 			//ESP_LOGI(TAG, "X: %f, Y: %f, Theta: %f", pose.x, pose.y,  pose.theta);		
 			ros_msgs::Pose2D pose_msg(pose);
-			//pose_feedback.publish(pose_msg);
+			pose_feedback.publish(pose_msg);
 		}
 		if(marvelmind_sensor.poseQual->peekAtValue(poseQual))	
 		{

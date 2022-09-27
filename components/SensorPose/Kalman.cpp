@@ -189,10 +189,17 @@ void Kalman::loopTask()
 	new_measurement_gps = (last_timestamp_imu != timestamp_gps);
 	if(new_measurement_imu){
 		dt_imu = (int)(last_timestamp_imu-timestamp_imu);
+		Marvelmind::imu->getValue(imu);
+		//printf("-----imu_test: ", imu.angular_velocity_z);
+		/*ax = imu.angular_velocity_x;
+		ay = imu.angular_velocity_y;
+		az = imu.angular_velocity_z;*/		
 		calculate_imu();
 	}
 	if(new_measurement_gps){
 		dt_gps = (int)(last_timestamp_gps-timestamp_gps);
+		//Marvelmind::pose->getValue(pose);
+		//Marvelmind::pose->getValue(poseQual);
 		calculate_gps();
 	}	
 	new_measurement_imu = false;

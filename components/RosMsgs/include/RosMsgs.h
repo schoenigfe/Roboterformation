@@ -247,14 +247,14 @@ namespace ros_msgs
 
             static std::string getMsgType()
             {
-                return "sensor_msgs/PoseQual";
+                return "std_msgs/UInt8";
             }
             
             void serialize(uint8_t* buffer) const
             { 				
-                uint8_t* buff = (uint8_t*)buffer;
-                buff[0] = q;
-                //printf("-buffer------------%d\n", buffer);
+                //uint8_t* buff = (uint8_t*)buffer;
+                buffer[0] = q;
+                printf("-buffer------------%d\n", buffer[0]);
                 //printf("buff-------------%d\n", buff);
             }
 
@@ -302,6 +302,7 @@ namespace ros_msgs
 
             void serialize(uint8_t* buffer) const
             { 
+                // fill buffer with data from x, y, theta
                 double* buff = (double*)buffer;
                 buff[0] = x;
                 buff[1] = y;
@@ -310,6 +311,7 @@ namespace ros_msgs
 
             void deserialize(uint8_t* buffer)
             {
+
                 double* buff = (double*)buffer;
 
                 x = buff[0];

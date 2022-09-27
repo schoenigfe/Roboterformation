@@ -109,7 +109,7 @@ void Marvelmind::_uart_read_data_task(void* pvParameters)
                 break;
             }                     
             case 0x0007:
-            {   //printf("\ncase quality 0x0007\n");
+            {   printf("\ncase quality 0x0007\n");
                 Marvelmind_Quality_Data* msg_data = (Marvelmind_Quality_Data*) data_buffer;                
                 ros_msgs_lw::PoseQual current_qual;                
                 current_qual.q = static_cast<uint8_t>(msg_data->positioning_quality);                               
@@ -117,7 +117,7 @@ void Marvelmind::_uart_read_data_task(void* pvParameters)
                 break;
             }           
             case 0x0011:
-            {   //printf("\ncase ultrasonic 0x0011\n");
+            {   printf("\ncase ultrasonic 0x0011\n");
                 Marvelmind_Rx_Data* msg_data = (Marvelmind_Rx_Data*) data_buffer;
                 ros_msgs_lw::Pose2D current_pose;
                 current_pose.x = (static_cast<float>(msg_data->x_coordinate_mm) - 16.739) / 1000.;
@@ -125,6 +125,12 @@ void Marvelmind::_uart_read_data_task(void* pvParameters)
                 current_pose.theta = static_cast<float>(msg_data->hedgehog_orientation_raw & 0xFFF) / 10. * 2 * M_PI / 360. + M_PI / 2.;
                 current_pose.theta = atan2(sin(current_pose.theta), cos(current_pose.theta));
 				pose->overwriteValue(current_pose);
+				{   //printf("\ncase quality 0x0007\n");
+					Marvelmind_Quality_Data* msg_data = (Marvelmind_Quality_Data*) data_buffer;                
+					ros_msgs_lw::PoseQual current_qual;                
+					current_qual.q = 77;                               
+					poseQual->overwriteValue(current_qual);
+				} 
                 break;
             }                    
             default:                

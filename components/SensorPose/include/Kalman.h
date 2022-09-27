@@ -22,6 +22,9 @@ class Kalman
 		void loopTask();
 		void calculate_imu();
 		void calculate_gps();
+		static ros_msgs_lw::Pose2D pose;
+		static ros_msgs_lw::PoseQual poseQual;
+		static ros_msgs_lw::Imu imu;
 		bool new_measurement_imu;
 		bool new_measurement_gps;
 		uint timestamp_imu;
