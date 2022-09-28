@@ -148,8 +148,8 @@ namespace ros
             uint8_t msg_id;
 
             status_error = _sock.socket_receive_nonblock(&msg_id, 1);
-            printf("MSG_ID: %d \n", msg_id);
-            printf("status_error: %d \n", msg_id);
+            //printf("MSG_ID: %d \n", msg_id);
+            //printf("status_error: %d \n", msg_id);
 
             if(status_error == SOCKET_FAIL)
             {

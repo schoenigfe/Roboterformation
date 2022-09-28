@@ -4,6 +4,7 @@
 #include "Wifi.h"
 #include "SensorValue.h"
 #include "Marvelmind.h"
+#include "Kalman.h"
 #include "NodeHandle.h"
 #include "Publisher.h"
 #include "RosMsgsLw.h"
@@ -49,12 +50,10 @@ extern "C" void app_main(void)
 	#ifdef STEP_RESPONSE
 		motor_controller.disablePIcontrol();
 	#endif
-	OutputVelocity& output_velocity = OutputVelocityImpl::init(motor_controller);
-	static Marvelmind marvelmind_sensor;
-	SensorValue<ros_msgs_lw::Pose2D> pose;
+		OutputVelocity& output_velocity = OutputVelocityImpl::init(motor_controller);
+		static Marvelmind marvelmind_sensor;
 	#ifdef KALMAN
-		//Kalman kalman_filter;
-		//pose = kalman_filter.pose;
+		static Kalman kalman_filter(&marvelmind_sensor);
 	#endif
 	
 	#ifdef DATA_LOGGING
@@ -63,7 +62,7 @@ extern "C" void app_main(void)
 		node_handle.subscribe<ros_msgs::String>("start_log", std::bind(&DataLogger::startLogging, &data_logger, std::placeholders::_1));
 	#endif
 	
-	ControllerMaster& controller_master = ControllerMaster::init(output_velocity, pose);
+	ControllerMaster& controller_master = ControllerMaster::init(output_velocity, *Marvelmind::pose);
 	
 	ros::Publisher<ros_msgs::Pose2D>& pose_feedback = node_handle.advertise<ros_msgs::Pose2D>("pose2D");
 	ros::Publisher<ros_msgs::PoseQual>& qual_feedback = node_handle.advertise<ros_msgs::PoseQual>("qual");

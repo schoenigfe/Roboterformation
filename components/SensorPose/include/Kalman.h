@@ -10,16 +10,11 @@ class Kalman
 {
     public:
 		SensorValue<ros_msgs_lw::Pose2D> kalmanPose;
-	private:
-		Kalman();
+		Kalman(Marvelmind*);
 		Kalman(Kalman const&) = delete;
-		~Kalman();		
-		//xTimerHandle _kalman_filter_loop_handle;
-	    //void _kalman_task(void* pvParameters);
-		//static void _kalman_timer(TimerHandle_t timer);
-	    //void _kalman_filter_loop();
-		//TaskHandle_t _kalman_task_handle;	
-		void loopTask();
+		~Kalman();
+	private:		
+		void _kalman_task(void* pvParameters);
 		void calculate_imu();
 		void calculate_gps();
 		static ros_msgs_lw::Pose2D pose;

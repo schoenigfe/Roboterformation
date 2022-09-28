@@ -4,7 +4,7 @@
 #define TAG "Kalman"
 
 
-Kalman::Kalman()
+Kalman::Kalman(Marvelmind*)
 { 
     //xTaskCreate(_kalman_task, "_kalman_task", 8192, this, 9, NULL);
 	
@@ -183,9 +183,9 @@ void Kalman::calculate_gps()
 		ros_msgs_lw::Pose2D new_pose;
 		kalmanPose.overwriteValue(new_pose);
 }
-void Kalman::loopTask() 
+void Kalman::_kalman_task(void* pvParameters) 
 {
-	//timestamp_imu = 
+	timestamp_imu = Marvelmind::imu->getTimestamp();
 	new_measurement_imu = (last_timestamp_imu != timestamp_imu);
 	new_measurement_gps = (last_timestamp_gps != timestamp_gps);
 	if(new_measurement_imu){

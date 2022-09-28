@@ -91,16 +91,16 @@ void Marvelmind::_uart_read_data_task(void* pvParameters)
         switch(msg_header.packet_identifier)
         {                       
             case 0x0003:
-            {   //printf("\ncase imu 0x0003\n");
+            {   printf("\ncase imu 0x0003\n");
                 Marvelmind_IMU_Data* msg_data = (Marvelmind_IMU_Data*) data_buffer;
                 ros_msgs_lw::Imu current_imu;
-				printf("IMU: \nax=%f, ay=%f, az=%f \n",  
-				 static_cast<float>(msg_data->accelerometer_x_axis) / 1000., static_cast<float>(msg_data->accelerometer_y_axis) / 1000., static_cast<float>(msg_data->accelerometer_z_axis) / 1000.);
-				printf("     \nvx=%f, vy=%f, vz=%f \n", 
-				 static_cast<float>(msg_data->gyroscope_x_axis) / 1000.,  static_cast<float>(msg_data->gyroscope_y_axis) / 1000.,  static_cast<float>(msg_data->gyroscope_z_axis) / 1000.); 
-                current_imu.v_theta = static_cast<float>(msg_data->gyroscope_z_axis) / 1000.;
-                current_imu.a_x = static_cast<float>(msg_data->accelerometer_x_axis) / 1000.;
-                current_imu.a_y = static_cast<float>(msg_data->accelerometer_y_axis) / 1000.;  
+				printf("IMU: \nax=%f, ay=%f, az=%f  //in mg\n",  
+				 static_cast<float>(msg_data->accelerometer_x_axis), static_cast<float>(msg_data->accelerometer_y_axis), static_cast<float>(msg_data->accelerometer_z_axis));
+				printf("     \nvx=%f, vy=%f, vz=%f  //in dsp\n", 
+				 static_cast<float>(msg_data->gyroscope_x_axis),  static_cast<float>(msg_data->gyroscope_y_axis),  static_cast<float>(msg_data->gyroscope_z_axis));                
+                current_imu.a_x = static_cast<float>(msg_data->accelerometer_x_axis);
+                current_imu.a_y = static_cast<float>(msg_data->accelerometer_y_axis); 
+                current_imu.v_theta = static_cast<float>(msg_data->gyroscope_z_axis); 
                 imu->setTimestamp(msg_data->timestamp_ms);    
 				imu->overwriteValue(current_imu);
                 break;
