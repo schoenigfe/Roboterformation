@@ -38,7 +38,6 @@ namespace ros_msgs
         public:
             explicit String() {}
             explicit String(std::string data) : data{data} {}
-
             size_t getSize() const
             { 
                 if(data.empty() == true)
@@ -46,19 +45,16 @@ namespace ros_msgs
                 
                 return sizeof(int32_t) + data.size();
             }
-
             void allocateMemory(int32_t msg_len) 
             {
                 data.reserve(msg_len);
 
                 _reserved_bytes = msg_len;
             }
-
             static std::string getMsgType()
             {
                 return "std_msgs/String";
-            }
-            
+            }           
             void serialize(uint8_t* buffer) const
             { 
                 if(data.empty() == false)
@@ -67,28 +63,22 @@ namespace ros_msgs
                     memcpy(buffer + sizeof(int32_t), data.c_str(), data.size());
                     //buffer[sizeof(int32_t) + data.size()] = '\0';
                 }
-            }
-            
+            }           
             void deserialize(uint8_t* buffer)
             {
                 data.assign((char*)buffer, _reserved_bytes);
             }
-
             bool operator==(std::string string_2) const
             {
                 return data == string_2;
             }
-
             explicit operator std::string() const
             {
                 return data;
             }
-
             std::string data;
-
         private:
             int _reserved_bytes = 0;
-
     };
 
     /*struct Pose2DSim
@@ -139,167 +129,92 @@ namespace ros_msgs
 
         private:
             static size_t const _msg_size;
-    };*/
-    
+    };*/  
     struct Imu
     {   
-        public:
-            
-            explicit Imu(uint32_t timestamp, double quaternion_orientation_x, double quaternion_orientation_y, double quaternion_orientation_z, double quaternion_orientation_w, double angular_velocity_x, double angular_velocity_y, double angular_velocity_z, double linear_acceleration_x, double linear_acceleration_y, double linear_acceleration_z) : timestamp{timestamp}, quaternion_orientation_x{quaternion_orientation_x}, quaternion_orientation_y{quaternion_orientation_y}, quaternion_orientation_z{quaternion_orientation_z}, quaternion_orientation_w{quaternion_orientation_w}, angular_velocity_x{angular_velocity_x}, angular_velocity_y{angular_velocity_y}, angular_velocity_z{angular_velocity_z}, linear_acceleration_x{linear_acceleration_x}, linear_acceleration_y{linear_acceleration_y}, linear_acceleration_z{linear_acceleration_z} {}
-            explicit Imu(ros_msgs::Imu const& imu) : timestamp{imu.timestamp}, quaternion_orientation_x{imu.quaternion_orientation_x}, quaternion_orientation_y{imu.quaternion_orientation_y}, quaternion_orientation_z{imu.quaternion_orientation_z}, quaternion_orientation_w{imu.quaternion_orientation_w}, angular_velocity_x{imu.angular_velocity_x}, angular_velocity_y{imu.angular_velocity_y}, angular_velocity_z{imu.angular_velocity_z}, linear_acceleration_x{imu.linear_acceleration_x}, linear_acceleration_y{imu.linear_acceleration_y}, linear_acceleration_z{imu.linear_acceleration_z} {}
-            explicit Imu(ros_msgs_lw::Imu const& imu);
-            
-            
-            Imu() : timestamp{0}, quaternion_orientation_x{0}, quaternion_orientation_y{0}, quaternion_orientation_z{0}, quaternion_orientation_w{0}, angular_velocity_x{0}, angular_velocity_y{0}, angular_velocity_z{0}, linear_acceleration_x{0}, linear_acceleration_y{0}, linear_acceleration_z{0}{}
-            
+        public:            
+            explicit Imu(double a_x, double a_y, double v_theta) : 
+            a_x{a_x}, a_y{a_y}, v_theta{v_theta} {}
+            explicit Imu(ros_msgs_lw::Imu const& imu);           
+            Imu() : a_x{0}, a_y{0}, v_theta{0} {}            
             size_t getSize() const 
             { 
                 return _msg_size; 
-            }
-            
+            }           
             void allocateMemory(int32_t msg_len) {}
-
             static std::string getMsgType()
             {
                 return "sensor_msgs/Imu";
             }
-
             void serialize(uint8_t* buffer) const
             { 
                 double* buff = (double*)buffer;
-                buff[0] = timestamp;
-                buff[1] = quaternion_orientation_x;
-                buff[2] = quaternion_orientation_y;
-                buff[3] = quaternion_orientation_z;
-                buff[4] = quaternion_orientation_w;
-                buff[5] = angular_velocity_x;
-                buff[6] = angular_velocity_y;
-                buff[7] = angular_velocity_z;
-                buff[8] = linear_acceleration_x;
-                buff[9] = linear_acceleration_y;
-                buff[10] = linear_acceleration_z;
+                buff[0] = a_x;
+                buff[1] = a_y;
+                buff[2] = v_theta;
             }
-
             void deserialize(uint8_t* buffer)
             {
                 double* buff = (double*)buffer;
-                timestamp= buff[0];
-                quaternion_orientation_x = buff[1];
-                quaternion_orientation_y = buff[2];
-                quaternion_orientation_z = buff[3];
-                quaternion_orientation_w = buff[4];
-                angular_velocity_x = buff[5];
-                angular_velocity_y =  buff[6];
-                angular_velocity_z = buff[7];
-                linear_acceleration_x = buff[8];
-                linear_acceleration_y = buff[9];
-                linear_acceleration_z = buff[10];
-            }
-            
-           void operator=(Imu const& imu)
-            {
-                timestamp = imu.timestamp;
-                quaternion_orientation_x = imu.quaternion_orientation_x;
-                quaternion_orientation_y = imu.quaternion_orientation_y;
-                quaternion_orientation_z = imu.quaternion_orientation_z;
-                quaternion_orientation_w = imu.quaternion_orientation_w;
-                angular_velocity_x = imu.angular_velocity_x;
-                angular_velocity_y = imu.angular_velocity_y;
-                angular_velocity_z = imu.angular_velocity_z;
-                linear_acceleration_x = imu.linear_acceleration_x;
-                linear_acceleration_y = imu.linear_acceleration_y;
-                linear_acceleration_z = imu.linear_acceleration_z;
-            }
-
-            
-            uint32_t timestamp;
-            double quaternion_orientation_x;
-            double quaternion_orientation_y;
-            double quaternion_orientation_z;
-            double quaternion_orientation_w;
-            double angular_velocity_x;
-            double angular_velocity_y;
-            double angular_velocity_z;
-            double linear_acceleration_x;
-            double linear_acceleration_y;
-            double linear_acceleration_z;
-
+                a_x = buff[0];
+                a_y = buff[1];
+                v_theta = buff[2];
+            }          
+            double a_x;
+            double a_y;
+            double v_theta;
         private:
             static size_t const _msg_size;
     };
-    
-    
-    
-    struct PoseQual
+	struct PoseQual
     {
 		public: 
 			explicit PoseQual(uint8_t poseQual) : q{q} {}
-			explicit PoseQual(ros_msgs_lw::PoseQual const& qual);
-			
+			explicit PoseQual(ros_msgs_lw::PoseQual const& qual);			
 			PoseQual() : q{0} {}
             			
             size_t getSize() const 
             { 
                 return _msg_size; 
-            }
-            
+            }            
             void allocateMemory(int32_t msg_len) {}
-
             static std::string getMsgType()
             {
                 return "std_msgs/UInt8";
-            }
-            
+            }            
             void serialize(uint8_t* buffer) const
             { 				
-                //uint8_t* buff = (uint8_t*)buffer;
                 buffer[0] = q;
-                printf("-buffer------------%d\n", buffer[0]);
-                //printf("buff-------------%d\n", buff);
             }
-
             void deserialize(uint8_t* buffer)
             {
                 uint8_t* buff = (uint8_t*)buffer;
                 q = buff[0];
             }
-            
             uint8_t q;
-            
         private:
             static size_t const _msg_size;
-	};
-    
-    
+	};    
     struct Pose2D
     {   
-        public:
-            
+        public:            
             explicit Pose2D(double x, double y, double theta) : x{x}, y{y}, theta{theta} 
             {
                 //Keep theta between -pi and pi
                 theta = atan2(sin(theta), cos(theta));
-            }
-            
+            }            
             //explicit Pose2D(ros_msgs::Pose2DSim const& pose) : x{pose.x}, y{pose.y}, theta{pose.theta} {}
-            
-            explicit Pose2D(ros_msgs_lw::Pose2D const& pose);
-            
-            
-            Pose2D() : x{0}, y{0}, theta{0} {}
-            
+            explicit Pose2D(ros_msgs_lw::Pose2D const& pose);           
+            Pose2D() : x{0}, y{0}, theta{0} {}            
             size_t getSize() const 
             { 
                 return _msg_size; 
-            }
-            
+            }           
             void allocateMemory(int32_t msg_len) {}
-
             static std::string getMsgType()
             {
                 return "geometry_msgs/Pose2D";
             }
-
             void serialize(uint8_t* buffer) const
             { 
                 // fill buffer with data from x, y, theta
@@ -308,30 +223,23 @@ namespace ros_msgs
                 buff[1] = y;
                 buff[2] = theta;
             }
-
             void deserialize(uint8_t* buffer)
             {
-
                 double* buff = (double*)buffer;
-
                 x = buff[0];
                 y = buff[1];
                 theta = buff[2];
-
                 //Keep theta between -pi and pi
                 theta = atan2(sin(theta), cos(theta));
-            }
-            
+            }           
             void operator=(Pose2D const& pose)
             {
                 x = pose.x;
                 y = pose.y;
                 theta = pose.theta;
-
                 //Keep theta between -pi and pi
                 theta = atan2(sin(theta), cos(theta));
-            }
-           
+            }          
             /*void operator=(Pose2DSim const& pose)
             {
                 x = pose.x;
@@ -344,11 +252,9 @@ namespace ros_msgs
             double x;
             double y;
             double theta;
-
         private:
             static size_t const _msg_size;
     };
-
     struct Twist2D
     {
         public:
@@ -412,38 +318,30 @@ namespace ros_msgs
             size_t getSize() const 
             { 
                 return _msg_size; 
-            }
-            
+            }            
             void allocateMemory(int32_t msg_len) {}
-
             static std::string getMsgType()
             {
                 return "geometry_msgs/Point";
             }
-
             void serialize(uint8_t* buffer) const
             { 
                 double* buff = (double*)buffer;
                 buff[0] = x;
                 buff[1] = y;
             }
-
             void deserialize(uint8_t* buffer)
             {
                 double* buff = (double*)buffer;
-
                 x = buff[0];
                 y = buff[1];
             }
-
             double x;
             double y;
-
         private:
             static size_t const _msg_size;
     };
-
-    struct TrajectoryStateVector
+	struct TrajectoryStateVector
     {
         public:
             explicit TrajectoryStateVector(float x, float y, float dx, float dy, float ddx, float ddy, float theta, uint64_t timestamp) : x{x}, y{y}, dx{dx}, 

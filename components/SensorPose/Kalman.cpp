@@ -185,8 +185,9 @@ void Kalman::calculate_gps()
 }
 void Kalman::loopTask() 
 {
+	//timestamp_imu = 
 	new_measurement_imu = (last_timestamp_imu != timestamp_imu);
-	new_measurement_gps = (last_timestamp_imu != timestamp_gps);
+	new_measurement_gps = (last_timestamp_gps != timestamp_gps);
 	if(new_measurement_imu){
 		dt_imu = (int)(last_timestamp_imu-timestamp_imu);
 		Marvelmind::imu->getValue(imu);

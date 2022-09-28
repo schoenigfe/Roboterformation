@@ -46,7 +46,7 @@ struct __attribute__((packed, aligned(1)))  Marvelmind_IMU_Data
     uint8_t reserved_byte_3;
     uint8_t reserved_byte_4;
     uint8_t reserved_byte_5;
-    uint32_t timestamp;    
+    uint32_t timestamp_ms;    
     uint8_t flags;    
     uint8_t reserved_byte_a;
     uint8_t reserved_byte_b;
@@ -94,17 +94,14 @@ void Marvelmind::_uart_read_data_task(void* pvParameters)
             {   //printf("\ncase imu 0x0003\n");
                 Marvelmind_IMU_Data* msg_data = (Marvelmind_IMU_Data*) data_buffer;
                 ros_msgs_lw::Imu current_imu;
-                current_imu.timestamp = msg_data->timestamp;
-                current_imu.quaternion_orientation_x = 0;
-                current_imu.quaternion_orientation_y = 0;
-                current_imu.quaternion_orientation_z = 0;
-                current_imu.quaternion_orientation_w = 0;
-                current_imu.angular_velocity_x = static_cast<float>(msg_data->gyroscope_x_axis) / 1000.;
-                current_imu.angular_velocity_y = static_cast<float>(msg_data->gyroscope_y_axis) / 1000.;
-                current_imu.angular_velocity_z = static_cast<float>(msg_data->gyroscope_z_axis) / 1000.;
-                current_imu.linear_acceleration_x = static_cast<float>(msg_data->accelerometer_x_axis) / 1000.;
-                current_imu.linear_acceleration_y = static_cast<float>(msg_data->accelerometer_y_axis) / 1000.;
-                current_imu.linear_acceleration_z = static_cast<float>(msg_data->accelerometer_z_axis) / 1000.;        
+				printf("IMU: \nax=%f, ay=%f, az=%f \n",  
+				 static_cast<float>(msg_data->accelerometer_x_axis) / 1000., static_cast<float>(msg_data->accelerometer_y_axis) / 1000., static_cast<float>(msg_data->accelerometer_z_axis) / 1000.);
+				printf("     \nvx=%f, vy=%f, vz=%f \n", 
+				 static_cast<float>(msg_data->gyroscope_x_axis) / 1000.,  static_cast<float>(msg_data->gyroscope_y_axis) / 1000.,  static_cast<float>(msg_data->gyroscope_z_axis) / 1000.); 
+                current_imu.v_theta = static_cast<float>(msg_data->gyroscope_z_axis) / 1000.;
+                current_imu.a_x = static_cast<float>(msg_data->accelerometer_x_axis) / 1000.;
+                current_imu.a_y = static_cast<float>(msg_data->accelerometer_y_axis) / 1000.;  
+                imu->setTimestamp(msg_data->timestamp_ms);    
 				imu->overwriteValue(current_imu);
                 break;
             }                     
@@ -112,7 +109,7 @@ void Marvelmind::_uart_read_data_task(void* pvParameters)
             {   printf("\ncase quality 0x0007\n");
                 Marvelmind_Quality_Data* msg_data = (Marvelmind_Quality_Data*) data_buffer;                
                 ros_msgs_lw::PoseQual current_qual;                
-                current_qual.q = static_cast<uint8_t>(msg_data->positioning_quality);                               
+                current_qual.q = static_cast<uint8_t>(msg_data->positioning_quality); 
 				poseQual->overwriteValue(current_qual);
                 break;
             }           
@@ -123,14 +120,9 @@ void Marvelmind::_uart_read_data_task(void* pvParameters)
                 current_pose.x = (static_cast<float>(msg_data->x_coordinate_mm) - 16.739) / 1000.;
                 current_pose.y = static_cast<float>(msg_data->y_coordinate_mm) / 1000.;
                 current_pose.theta = static_cast<float>(msg_data->hedgehog_orientation_raw & 0xFFF) / 10. * 2 * M_PI / 360. + M_PI / 2.;
-                current_pose.theta = atan2(sin(current_pose.theta), cos(current_pose.theta));
+                current_pose.theta = atan2(sin(current_pose.theta), cos(current_pose.theta));                              
+				poseQual->setTimestamp(msg_data->timestamp_ms);
 				pose->overwriteValue(current_pose);
-				{   //printf("\ncase quality 0x0007\n");
-					Marvelmind_Quality_Data* msg_data = (Marvelmind_Quality_Data*) data_buffer;                
-					ros_msgs_lw::PoseQual current_qual;                
-					current_qual.q = 77;                               
-					poseQual->overwriteValue(current_qual);
-				} 
                 break;
             }                    
             default:                
@@ -140,7 +132,6 @@ void Marvelmind::_uart_read_data_task(void* pvParameters)
     ESP_ERROR_CHECK(status);
     vTaskDelete(NULL);
 }
-
 Marvelmind::Marvelmind() 
 {
     ESP_ERROR_CHECK(uart_driver_install(_uart_port, UART_RX_BUFFER, 0, 0, NULL, 0));

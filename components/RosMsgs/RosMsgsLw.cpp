@@ -8,11 +8,8 @@ namespace ros_msgs_lw
         //Keep theta between -pi and pi
         theta = atan2(sin(theta), cos(theta));
     }
-
     Pose2D::Pose2D(ros_msgs::Pose2D const& pose) : x{static_cast<float>(pose.x)}, y{static_cast<float>(pose.y)}, theta{static_cast<float>(pose.theta)} {}
-
     //Pose2D::Pose2D(ros_msgs::Pose2DSim const& pose) : x{pose.x}, y{pose.y}, theta{pose.theta} {}
-
     Pose2D::Pose2D(dspm::Mat const& pose) 
     {
         if(pose.rows != 3 || pose.cols != 1)
@@ -22,7 +19,6 @@ namespace ros_msgs_lw
         y = pose(1, 0);
         theta = atan2(sin(pose(2, 0)), cos(pose(2, 0)));
     }
-
     void Pose2D::operator=(Pose2D const& pose)
     {
         x = pose.x;
@@ -32,7 +28,6 @@ namespace ros_msgs_lw
         //Keep theta between -pi and pi
         theta = atan2(sin(theta), cos(theta));
     }
-
     void Pose2D::operator=(dspm::Mat const& pose)
     {   
         if(pose.rows != 3 || pose.cols != 1)
@@ -42,7 +37,6 @@ namespace ros_msgs_lw
         y = pose(1, 0);
         theta = atan2(sin(pose(2, 0)), cos(pose(2, 0)));
     }
-
     Pose2D operator+(Pose2D const& pose_1, Pose2D const& pose_2)
     {
         Pose2D result;
@@ -53,7 +47,6 @@ namespace ros_msgs_lw
 
         return result;
     }
-
     Pose2D operator-(Pose2D const& pose_1, Pose2D const& pose_2)
     {
         Pose2D result;
@@ -79,7 +72,6 @@ namespace ros_msgs_lw
 
         return result;
     }
-
     Pose2D operator*(float scalar, Pose2D const& pose)
     {
         Pose2D result;
@@ -92,7 +84,6 @@ namespace ros_msgs_lw
 
         return result;
     }
-
     dspm::Mat operator*(dspm::Mat const& mat, Pose2D const& pose)
     {
         if(mat.cols != 3)
@@ -107,48 +98,27 @@ namespace ros_msgs_lw
 
         return result;
     }
-
-
-    Twist2D::Twist2D(ros_msgs::Twist2D const& velocity): v{static_cast<float>(velocity.v)}, w{static_cast<float>(velocity.w)} {}
-    
+    Twist2D::Twist2D(ros_msgs::Twist2D const& velocity): v{static_cast<float>(velocity.v)}, w{static_cast<float>(velocity.w)} {}    
     void Twist2D::operator=(Twist2D const& velocity)
     {  
         v = velocity.v;
         w = velocity.w;
     }
-
     void Twist2D::operator=(ros_msgs::Twist2D const& velocity)
     {
         v = static_cast<float>(velocity.v);
         w = static_cast<float>(velocity.w);
     }
-
     void Twist2D::operator=(float i)
     {  
         v = i;
         w = i;
     }
-
-
     Point2D::Point2D(ros_msgs::Point2D const& point) : x{static_cast<float>(point.x)}, y{static_cast<float>(point.y)} {}
-    
-    Imu::Imu(ros_msgs::Imu const& imu) : timestamp{static_cast<uint32_t>(imu.timestamp)}, quaternion_orientation_x{static_cast<float>(imu.quaternion_orientation_x)}, quaternion_orientation_y{static_cast<float>(imu.quaternion_orientation_y)}, quaternion_orientation_z{static_cast<float>(imu.quaternion_orientation_z)}, quaternion_orientation_w{static_cast<float>(imu.quaternion_orientation_w)}, angular_velocity_x{static_cast<float>(imu.angular_velocity_x)}, angular_velocity_y{static_cast<float>(imu.angular_velocity_y)}, angular_velocity_z{static_cast<float>(imu.angular_velocity_z)}, linear_acceleration_x{static_cast<float>(imu.linear_acceleration_x)}, linear_acceleration_y{static_cast<float>(imu.linear_acceleration_y)}, linear_acceleration_z{static_cast<float>(imu.linear_acceleration_z)} {}
-  
-	void Imu::operator=(Imu const& imu)
-            {
-                timestamp = imu.timestamp;
-                quaternion_orientation_x = imu.quaternion_orientation_x;
-                quaternion_orientation_y = imu.quaternion_orientation_y;
-                quaternion_orientation_z = imu.quaternion_orientation_z;
-                quaternion_orientation_w = imu.quaternion_orientation_w;
-                angular_velocity_x = imu.angular_velocity_x;
-                angular_velocity_y = imu.angular_velocity_y;
-                angular_velocity_z = imu.angular_velocity_z;
-                linear_acceleration_x = imu.linear_acceleration_x;
-                linear_acceleration_y = imu.linear_acceleration_y;
-                linear_acceleration_z = imu.linear_acceleration_z;
-            }
-
 	PoseQual::PoseQual(uint8_t q) : q{q} {}
 	PoseQual::PoseQual(ros_msgs::PoseQual const& qual) : q{static_cast<uint8_t>(qual.q)} {}
+    Imu::Imu(float a_x, float a_y, float v_theta) : a_x{a_x}, a_y{a_y}, v_theta{v_theta} {}
+    Imu::Imu(ros_msgs::Imu const& imu) : 
+    a_x{static_cast<float>(imu.a_x)}, a_y{static_cast<float>(imu.a_y)}, v_theta{static_cast<float>(imu.v_theta)} {} 
+      
 }

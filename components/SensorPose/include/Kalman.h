@@ -27,10 +27,10 @@ class Kalman
 		static ros_msgs_lw::Imu imu;
 		bool new_measurement_imu;
 		bool new_measurement_gps;
-		uint timestamp_imu;
-		uint timestamp_gps;	
-		uint last_timestamp_imu;
-		uint last_timestamp_gps;
+		uint timestamp_imu = 0;
+		uint timestamp_gps = 0;	
+		uint last_timestamp_imu = 0;
+		uint last_timestamp_gps = 0;
 		float dt_imu;
 		float dt_gps;	
 	    float signal_quality;

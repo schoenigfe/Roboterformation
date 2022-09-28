@@ -45,6 +45,8 @@ class SensorValue {
             xQueueOverwrite(_peek_at_value_queue, &new_value);
             xQueueOverwrite(_current_value_queue, &new_value);
         }        
+        uint32_t getTimestamp() {return timestamp;}
+        void setTimestamp(uint32_t time) {timestamp = time;}
         SensorValue()
         {
             _peek_at_value_queue = xQueueCreate(1, sizeof(T));
@@ -58,5 +60,6 @@ class SensorValue {
         SensorValue(SensorValue const&) = delete;
 	private: 
         QueueHandle_t _peek_at_value_queue;
-		QueueHandle_t _current_value_queue;              
+		QueueHandle_t _current_value_queue;  
+		uint32_t timestamp;            
 };
