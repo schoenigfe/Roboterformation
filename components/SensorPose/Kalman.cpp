@@ -8,8 +8,8 @@ Kalman::Kalman(Marvelmind*)
 { 
     //xTaskCreate(_kalman_task, "_kalman_task", 8192, this, 9, NULL);
 	
-	//DeltaTimeStart
-	dt=0.1;
+	//DeltaTime
+	dt_gps=0.1; //insert actual time difference here
 	
 	/**Matrix A (Transition Matrix)   A = [1 0 0 dt 0 0;
 										 0 1 0 0 dt 0;
@@ -17,28 +17,19 @@ Kalman::Kalman(Marvelmind*)
 										 0 0 0 1 0 0;
 										 0 0 0 0 1 0;
 										 0 0 0 0 0 0]; */
-	//set zeros and ones
 	A = dspm::Mat::eye(6);
-    A(0, 3) = dt;
-    A(1, 4) = dt;
+    A(0, 3) = dt_gps;
+    A(1, 4) = dt_gps;
     A(5, 5) = 0;
 
 	
-	/**Matrix H (Observation Matrix)		H = [1 0 0 0 0 0;
-											 0 1 0 0 0 0;
-											 0 0 1 0 0 0]; */					
-	for(int i=0; i<3;i++)
-	{
-		for(int j=0; j<6;j++)
-		{
-			if(i==j){
-				H(i,j)=1;
-			}
-			else{
-				H(i,j)=0;
-			}
-		}
-	}
+	/**Matrix H (Observation Matrix)    H = [1 0 0 0 0 0;
+										 0 1 0 0 0 0;
+										 0 0 1 0 0 0;
+										 0 0 0 1 0 0;
+										 0 0 0 0 1 0;
+										 0 0 0 0 0 1]; */										 				
+	H = dspm::Mat::eye(6);
 	
 	/**Matrix P (Covariance Matrix)		P = [1 0 0 0 0 0;
 											 0 1 0 0 0 0;
@@ -94,17 +85,21 @@ void Kalman::calculate_imu()
 	theta = X(2, 0);
 	
 	//get DeltaTime
-    dt=0.1;///get real clock difference here!!!!
+	dt_gps=0.1;
+    dt_imu=0.01;///get real clock difference here!!!!
 
-	//get GPS Pose
+	//get State_Vector
 	Z(0,0) = 0;///////get GPS Data here!!!!
 	Z(0,1) = 0;///////get GPS Data here!!!!
 	Z(0,2) = 0;///////get GPS Data here!!!!
+	Z(0,3) = 0;///////get global Velocity here!!!!
+	Z(0,4) = 0;///////get global Velocity here!!!!
+	Z(0,5) = 0;///////get global Velocity here!!!!
 	
 	//get IMU Data
 	U(0,0)=0; //get IMU dat from IMU!!!
 	U(0,1)=0; //get IMU dat from IMU!!!
-	U(0,2)=0;	
+	U(0,2)=0; 
 	U(0,3)=0;
 	U(0,4)=0;
 	U(0,5)=0;
@@ -113,17 +108,33 @@ void Kalman::calculate_imu()
 	//get Signal Quality
 	signal_quality=100; /// get real signal quality !!!
 	
-	//calculate estimated variance of gps data
-	rxy = (1.01-signal_quality/100)*10;
-	rt = (3.15-0.0313*signal_quality/100)*10;
 	
-	/*Rauschmatrix  R = [rxy 0   0;
-						 0   rxy 0;
-						 0   0   rt];*/
-	R = dspm::Mat::eye(3);
+	if(signal_quality>50){
+		rxy=0.01;
+		rt=0.01;
+		rxy_dot=0.01;
+		rt_dot=0.01;
+	}
+	else{
+		rxy=1000;
+		rt=1000;
+		rxy_dot=1000;
+		rt_dot=1000;
+	}
+	 
+	/*Rauschmatrix  					R = [rxy 0   0     0       0        0;
+											 0   rxy 0     0       0        0;
+											 0   0  rtheta 0       0        0;
+											 0   0   0   rxy_dot   0        0;
+											 0   0   0     0    rxy_dot     0;
+											 0   0   0     0       0    rtheta_dot];*/
+	R = dspm::Mat::eye(6);
 	R(0,0) = rxy;
 	R(1,1) = rxy;
 	R(2,2) = rt;
+	R(3,3) = rxy_dot;
+	R(4,4) = rxy_dot;
+	R(5,5) = rt_dot;
 	
 	
 	//get gyro_z from Imu Data
@@ -131,9 +142,9 @@ void Kalman::calculate_imu()
 	
 ///calulate_gps()   
     //update DeltaTime of Matrix A with Clockdifference
-    A(0, 3) = dt;
-    A(1, 4) = dt;
-    A(2, 4) = dt;
+    A(0, 3) = dt_gps;
+    A(1, 4) = dt_gps;
+    A(2, 4) = dt_gps;
     
     /**Matrix B			B = [0.5*dt*dt*cos(x(3,k)+imu(k,6)*dt) -0.5*dt*dt*sin(x(3,k)+imu(k,6)*dt) 0 0 0 0;    %x from ax,ay and x(k,3)
 							 0.5*dt*dt*sin(x(3,k)+imu(k,6)*dt)  0.5*dt*dt*cos(x(3,k)+imu(k,6)*dt) 0 0 0 0;    %y from ax,ay and x(k,3) 
